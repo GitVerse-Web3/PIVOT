@@ -1,0 +1,42 @@
+go 1.22
+
+toolchain go1.22
+
+use (
+	.
+	./api
+	./client/v2
+	./collections
+	./core
+	./depinject
+	./errors
+	./log
+	./math
+	./orm
+	./simapp
+	./tests
+	./tests/starship/tests
+	./store
+	./tools/cosmovisor
+	./tools/confix
+	./tools/hubl
+	./x/accounts
+	./x/auth
+	./x/authz
+	./x/bank
+	./x/circuit
+	./x/distribution
+	./x/evidence
+	./x/feegrant
+ 	./x/gov
+	./x/group
+	./x/mint
+	./x/nft
+	./x/params
+	./x/protocolpool
+	./x/slashing
+	./x/staking
+	./x/tx
+	./x/upgrade
+	./x/accounts/defaults/lockup
+)
