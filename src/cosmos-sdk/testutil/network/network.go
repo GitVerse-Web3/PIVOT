@@ -149,7 +149,7 @@ func DefaultConfig(factory TestFixtureFactory) Config {
 		TimeoutCommit:         2 * time.Second,
 		ChainID:               "chain-" + unsafe.Str(6),
 		NumValidators:         4,
-		BondDenom:             sdk.DefaultBondDenom,
+		BondDenom:             sdk.StakingBondDenom,
 		MinGasPrices:          fmt.Sprintf("0.000006%s", sdk.DefaultBondDenom),
 		AccountTokens:         sdk.TokensFromConsensusPower(1000, sdk.DefaultPowerReduction),
 		StakingTokens:         sdk.TokensFromConsensusPower(500, sdk.DefaultPowerReduction),

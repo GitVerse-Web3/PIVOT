@@ -63,7 +63,7 @@ func DefaultParams() Params {
 		DefaultMaxValidators,
 		DefaultMaxEntries,
 		DefaultHistoricalEntries,
-		sdk.DefaultBondDenom,
+		sdk.StakingBondDenom,
 		DefaultMinCommissionRate,
 		DefaultKeyRotationFee,
 	)

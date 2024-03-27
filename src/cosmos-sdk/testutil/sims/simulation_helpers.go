@@ -59,7 +59,7 @@ func SimulationOperations(app runtime.AppSimI, cdc codec.Codec, config simtypes.
 		AddressCodec:   signingCtx.AddressCodec(),
 		ValidatorCodec: signingCtx.ValidatorAddressCodec(),
 		TxConfig:       authtx.NewTxConfig(cdc, signingCtx.AddressCodec(), signingCtx.ValidatorAddressCodec(), authtx.DefaultSignModes), // TODO(tip): we should extract this from app
-		BondDenom:      sdk.DefaultBondDenom,
+		BondDenom:      sdk.StakingBondDenom,
 	}
 
 	if config.ParamsFile != "" {

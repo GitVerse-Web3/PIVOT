@@ -132,6 +132,7 @@ func InitCmd(mm *module.Manager) *cobra.Command {
 			if defaultDenom != "" {
 				sdk.DefaultBondDenom = defaultDenom
 			}
+
 			appGenState := mm.DefaultGenesis()
 
 			appState, err := json.MarshalIndent(appGenState, "", " ")

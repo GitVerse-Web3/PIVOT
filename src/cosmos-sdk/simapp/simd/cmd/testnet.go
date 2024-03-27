@@ -294,8 +294,9 @@ func initTestnetFiles(
 		accTokens := sdk.TokensFromConsensusPower(1000, sdk.DefaultPowerReduction)
 		accStakingTokens := sdk.TokensFromConsensusPower(500, sdk.DefaultPowerReduction)
 		coins := sdk.Coins{
+			sdk.NewCoin(sdk.StakingBondDenom, accStakingTokens),
 			sdk.NewCoin("testtoken", accTokens),
-			sdk.NewCoin(sdk.DefaultBondDenom, accStakingTokens),
+			//sdk.NewCoin(sdk.DefaultBondDenom, accStakingTokens),
 		}
 
 		genBalances = append(genBalances, banktypes.Balance{Address: addr.String(), Coins: coins.Sort()})
@@ -309,7 +310,8 @@ func initTestnetFiles(
 		createValMsg, err := stakingtypes.NewMsgCreateValidator(
 			valStr,
 			valPubKeys[i],
-			sdk.NewCoin(sdk.DefaultBondDenom, valTokens),
+			//sdk.NewCoin(sdk.DefaultBondDenom, valTokens),
+			sdk.NewCoin(sdk.StakingBondDenom, valTokens),
 			stakingtypes.NewDescription(nodeDirName, "", "", "", ""),
 			stakingtypes.NewCommissionRates(math.LegacyOneDec(), math.LegacyOneDec(), math.LegacyOneDec()),
 			math.OneInt(),

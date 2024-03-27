@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"cosmossdk.io/core/event"
+	"cosmossdk.io/math"
 	"cosmossdk.io/x/mint/types"
 
 	"github.com/cosmos/cosmos-sdk/telemetry"
@@ -44,9 +45,25 @@ func (k Keeper) BeginBlocker(ctx context.Context, ic types.InflationCalculationF
 	}
 
 	// mint coins, update supply
-	mintedCoin := minter.BlockProvision(params)
-	mintedCoins := sdk.NewCoins(mintedCoin)
 
+	// edit START
+	// editby: cxgd
+	mintedCoin := minter.BlockProvision(params)
+	var mintedCoins sdk.Coins
+	headerInfo := k.environment.HeaderService.GetHeaderInfo(ctx)
+	blockHeight := headerInfo.Height
+
+	if blockHeight%10 != 0 {
+		mintedCoins = sdk.NewCoins(mintedCoin)
+	} else {
+		// mint 1 stakeCoin every 10 blocks, for test
+		stakeCoin := sdk.NewCoin(sdk.StakingBondDenom, math.NewInt(1))
+		mintedCoins = sdk.NewCoins(stakeCoin)
+	}
+	// edit END
+
+	// mintedCoin := minter.BlockProvision(params)
+	// mintedCoins := sdk.NewCoins(mintedCoin)
 	err = k.MintCoins(ctx, mintedCoins)
 	if err != nil {
 		return err
