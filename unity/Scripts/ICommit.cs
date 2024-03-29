@@ -5,32 +5,59 @@ using UnityEngine;
 
 interface ICommit
 {
-	Int64 modelHash { get; }
-	string commitMessage { get; }
+	Int64 modelHashID { get; }
 	PublicKey author { get; }
 	Int64 authorSignature { get; }
-	bool isMaster { get; set; }
+	DateTime timestamp { get; }
+	Tag tag { get; }
+	string commitMessage { get; }
+
+
+
+
+
 	byte[] getFullModel();
 	bool checkValid();
 	void rebaseToMaster();
 	double getCompressionRatio();
 }
 
-
-interface DeltaModel : ICommit
+interface Tag
 {
-	ICommit parentModel { get; }
+	bool isMaster { get; set; }
+	bool isDeltaModel { get; }
+	bool isHead { get; set; }
 	bool isEncrypted { get; }
-	byte[] modelDelta { get; }
-
+	bool isMerge { get; }
 }
-
 
 interface MergeModel : ICommit
 {
 	ICommit[] parentModels { get; }
 
 }
+interface SingleParentModel : ICommit
+{
+	ICommit parentModel { get; }
+}
+
+
+interface DeltaModel : SingleParentModel
+{
+	byte[] modelDelta { get; }
+
+}
+
+interface FullModel : SingleParentModel
+{
+
+
+	byte[] modelBin { get; }
+
+}
+
+
+
 
 public interface PublicKey
 {
