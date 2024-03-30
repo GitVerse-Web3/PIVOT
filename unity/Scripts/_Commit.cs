@@ -88,11 +88,13 @@ public class _Commit : ICommit
 
 	public virtual void chosenToBeHead()
 	{
-		Assert.That(this.parentModel.tag.isHead || this.parentModel == null);
+
+
 		this.tag.isMaster = true;
 		this.tag.isHead = true;
 		if (this.parentModel != null)
 		{
+			Assert.That(this.parentModel.tag.isHead);
 			this.parentModel.tag.isHead = false;
 		}
 
