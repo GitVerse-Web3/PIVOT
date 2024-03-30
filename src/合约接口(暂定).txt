@@ -1,0 +1,65 @@
+1.pull
+参数:
+{
+	modelHash  model的唯一标识   就是很大的随机数
+	relayPubkeyList  relay的唯一标识列表  区块链公钥aka钱包地址
+	down 首付
+	cost 辛苦费
+	tip 小费
+}
+
+事件：
+pull(modelHash, relayPubkeyList, down, cost, tip, orderId)
+
+
+
+2.raisePayment
+参数：
+{
+	modelHash  model的唯一标识
+	down 首付
+	cost 辛苦费
+	tip 小费
+}
+
+事件：
+raisePayment(modelHash, relayPubkeyList, down, cost, tip, orderId)
+
+
+
+3.takeOrder
+参数：
+{
+	orderId  订单唯一标识
+	x  两个质数的乘积
+	address relay收钱的地址  检查只能是relayPubkeyList里的地址
+}
+
+事件：
+takeOrder(orderId, relayPubkey)
+
+4.getOrderStatus
+参数：
+{
+	orderId 订单唯一标识
+}
+
+5.confirmReceived
+参数：
+{
+	orderId 订单唯一标识
+}
+
+事件：
+confirmReceived(orderId)
+
+
+
+6.completeOrder
+参数：
+{
+	prime1
+	prime2   两个质数，乘积为之前传的x
+}
+事件:
+completeOrder(orderId,prime1,prime2)
