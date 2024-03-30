@@ -1,8 +1,8 @@
 1.pull
 参数:
 {
-	modelHash  model的唯一标识（什么样的还不清楚）
-	relayPubkeyList  relay的唯一标识列表（同上，还不清楚）
+	modelHash  model的唯一标识   就是很大的随机数
+	relayPubkeyList  relay的唯一标识列表  区块链公钥aka钱包地址
 	down 首付
 	cost 辛苦费
 	tip 小费
@@ -16,7 +16,7 @@ pull(modelHash, relayPubkeyList, down, cost, tip, orderId)
 2.raisePayment
 参数：
 {
-	modelHash  model的唯一标识（什么样的还不清楚）
+	modelHash  model的唯一标识
 	down 首付
 	cost 辛苦费
 	tip 小费
@@ -32,7 +32,7 @@ raisePayment(modelHash, relayPubkeyList, down, cost, tip, orderId)
 {
 	orderId  订单唯一标识
 	x  两个质数的乘积
-	address relay收钱的地址
+	address relay收钱的地址  检查只能是relayPubkeyList里的地址
 }
 
 事件：
