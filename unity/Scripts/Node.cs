@@ -68,10 +68,7 @@ public class Node : MonoBehaviour, ICommit, IInitializable
 	public void chosenToBeHead()
 	{
 		_commit.chosenToBeHead();
-		var v = this.transform.position;
-		v.x = 0;
-		v.z = 0;
-		this.transform.position = v;
+
 
 
 
@@ -101,6 +98,9 @@ public class Node : MonoBehaviour, ICommit, IInitializable
 			Node h = (Node)head;
 
 			_commit.rebaseToMaster(head);
+
+
+			updateScale();
 			updateY(h);
 			updateLine();
 		}
@@ -111,7 +111,7 @@ public class Node : MonoBehaviour, ICommit, IInitializable
 	{
 		if (parentModel != null)
 		{
-			Debug.Log("line");
+
 			float c = (float)this.compressionRatio;
 			_line.startWidth = c;
 			_line.endWidth = c;
@@ -123,6 +123,8 @@ public class Node : MonoBehaviour, ICommit, IInitializable
 		}
 	}
 
+
+	float myY = 0;
 	public void updateY(Node head)
 	{
 		var v = head.transform.position;
@@ -131,6 +133,7 @@ public class Node : MonoBehaviour, ICommit, IInitializable
 		v.x = this.transform.position.x;
 		v.z = this.transform.position.z;
 		this.transform.position = v;
+		myY = v.y;
 	}
 
 	// Start is called before the first frame update
@@ -147,13 +150,13 @@ public class Node : MonoBehaviour, ICommit, IInitializable
 
 			Vector2 rr = new Vector2(v.x, v.z);
 			var m = rr.magnitude;
-			target = new Vector3(c * r * v.x / m, v.y, c * r * v.z / m);
+			target = new Vector3(c * r * v.x / m, myY, c * r * v.z / m);
 
 
 		}
 		else
 		{
-			target = new Vector3(0, v.y, 0);
+			target = new Vector3(0, myY, 0);
 		}
 		v += (target - v) * speed;
 		this.transform.position = v;

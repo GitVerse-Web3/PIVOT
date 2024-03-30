@@ -91,7 +91,7 @@ public class _BranchManager : PrefabFactory<ICommit>, IFactory<ICommit>, BranchM
 			ans.transform.position = new Vector3(
 				Random.Range(-ans.r * c, ans.r * c),
 				Random.Range(-ans.r * c, ans.r * c),
-				Random.Range(-ans.r * c, ans.r * c)
+				Random.Range(0, ans.r * c)
 				);
 			ans.updateY((Node)masterHead);
 

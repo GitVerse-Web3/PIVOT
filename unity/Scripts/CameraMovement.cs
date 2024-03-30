@@ -50,6 +50,11 @@ public class CameraMovement : MonoBehaviour
 
 		float c = (float)_branchManager.masterHead.compressionRatio;
 
+		if (Input.GetKey(KeyCode.X))
+		{
+			c = 1;
+		}
+
 		if (Input.GetKey(KeyCode.W))
 			cameraPos.z += movementSpeed * c;
 		if (Input.GetKey(KeyCode.S))

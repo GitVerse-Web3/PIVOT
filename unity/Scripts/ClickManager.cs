@@ -32,7 +32,11 @@ public class ClickManager : MonoBehaviour
 	{
 		if (Input.GetMouseButtonDown(0))
 		{
-			Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+			//Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+			Ray ray = camera.ScreenPointToRay(new Vector3(
+				Screen.width / 2, Screen.height / 2, 0
+				)
+				);
 
 			if (Physics.Raycast(ray, out hit))
 			{
