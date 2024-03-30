@@ -18,6 +18,12 @@ public class Node : MonoBehaviour, ICommit, IInitializable
 
 	[SerializeField]
 	TextMeshPro _textMesh;
+	[SerializeField]
+	LineRenderer _line;
+
+
+	Renderer _renderer;
+
 
 	public long modelHashID => _commit.modelHashID;
 
@@ -36,6 +42,8 @@ public class Node : MonoBehaviour, ICommit, IInitializable
 		{
 
 			_commit.parentModel = value;
+
+
 
 		}
 	}
@@ -64,6 +72,19 @@ public class Node : MonoBehaviour, ICommit, IInitializable
 		v.x = 0;
 		v.z = 0;
 		this.transform.position = v;
+
+
+
+
+
+		_renderer.material.color = Color.red;
+		if (parentModel != null)
+		{
+			((Node)parentModel)._renderer.material.color = Color.blue;
+
+		}
+
+		updateLine();
 	}
 
 	public byte[] getFullModel()
@@ -74,16 +95,41 @@ public class Node : MonoBehaviour, ICommit, IInitializable
 	public void rebaseToMaster(ICommit head)
 	{
 
-		Node h = (Node)head;
-		updateY(h);
-		_commit.rebaseToMaster(head);
+		if (!this.tag.isMaster)
+		{
+			Debug.Log("rebase");
+			Node h = (Node)head;
+
+			_commit.rebaseToMaster(head);
+			updateY(h);
+			updateLine();
+		}
+
+	}
+
+	public void updateLine()
+	{
+		if (parentModel != null)
+		{
+			Debug.Log("line");
+			float c = (float)this.compressionRatio;
+			_line.startWidth = c;
+			_line.endWidth = c;
+			_line.SetPositions(new Vector3[] { this.transform.position, ((Node)parentModel).transform.position });
+		}
+		else
+		{
+			_line.enabled = false;
+		}
 	}
 
 	public void updateY(Node head)
 	{
-		var v = this.transform.position;
-		float y = head.transform.localScale.y + deltaY + this.transform.localScale.y;
-		v.y = y;
+		var v = head.transform.position;
+		float dy = head.transform.localScale.y / 2 + deltaY * (float)this.compressionRatio + this.transform.localScale.y / 2;
+		v.y += dy;
+		v.x = this.transform.position.x;
+		v.z = this.transform.position.z;
 		this.transform.position = v;
 	}
 
@@ -93,16 +139,25 @@ public class Node : MonoBehaviour, ICommit, IInitializable
 	// Update is called once per frame
 	void LateUpdate()
 	{
+		Vector3 target;
+		var v = this.transform.position;
 		if (!this.tag.isMaster)
 		{
-			var v = this.transform.position;
+			float c = (float)this.parentModel.compressionRatio;
+
 			Vector2 rr = new Vector2(v.x, v.z);
 			var m = rr.magnitude;
-			Vector3 target = new Vector3(r * v.x / m, v.y, r * v.z / m);
-			v += (target - v) * speed;
-			this.transform.position = v;
-		}
+			target = new Vector3(c * r * v.x / m, v.y, c * r * v.z / m);
 
+
+		}
+		else
+		{
+			target = new Vector3(0, v.y, 0);
+		}
+		v += (target - v) * speed;
+		this.transform.position = v;
+		updateLine();
 	}
 
 	void updateScale()
@@ -118,13 +173,16 @@ public class Node : MonoBehaviour, ICommit, IInitializable
 	{
 		_textMesh.text =
 			"id: " + modelHashID
-			+ "\n message: " + commitMessage
-			+ "\n author: " + author
+			+ "\n message:\n " + commitMessage
 			+ "\n c: " + compressionRatio;
 	}
 
 	public void Initialize()
 	{
 		updateDisplay();
+		updateScale();
+
+		_renderer = this.GetComponent<Renderer>();
+		updateLine();
 	}
 }

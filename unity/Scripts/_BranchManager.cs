@@ -71,6 +71,17 @@ public class _BranchManager : PrefabFactory<ICommit>, IFactory<ICommit>, BranchM
 		Node prefab = Resources.Load<Node>("node");
 		Node ans = (Node)Create(prefab);
 		ans._commit = x;
+		ans.Initialize();
+		float c;
+		if (masterHead != null)
+		{
+			c = (float)this.masterHead.compressionRatio;
+		}
+		else
+		{
+			c = 1;
+		}
+		c *= 2;
 		if (ans.parentModel == null)
 		{
 			ans.transform.position = Vector3.zero;
@@ -78,9 +89,9 @@ public class _BranchManager : PrefabFactory<ICommit>, IFactory<ICommit>, BranchM
 		else
 		{
 			ans.transform.position = new Vector3(
-				Random.Range(-ans.r * 2, ans.r * 2),
-				Random.Range(-ans.r * 2, ans.r * 2),
-				Random.Range(-ans.r * 2, ans.r * 2)
+				Random.Range(-ans.r * c, ans.r * c),
+				Random.Range(-ans.r * c, ans.r * c),
+				Random.Range(-ans.r * c, ans.r * c)
 				);
 			ans.updateY((Node)masterHead);
 

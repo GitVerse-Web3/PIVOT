@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class CameraMovement : MonoBehaviour
 {
+	[Inject]
+	BranchManager _branchManager;
+
 	public float movementSpeed;
 	public float mouseSentity;     //鼠标灵敏度
 	public Vector2 limPos;  //限制摄像机旋转的角度
@@ -44,18 +48,20 @@ public class CameraMovement : MonoBehaviour
            在游戏中，我们不可能360度在上下方向无限制旋转，而需要限制的值就是Roation.x的值，
            也就是cameraPosition.x的值*/
 
+		float c = (float)_branchManager.masterHead.compressionRatio;
+
 		if (Input.GetKey(KeyCode.W))
-			cameraPos.z += movementSpeed;
+			cameraPos.z += movementSpeed * c;
 		if (Input.GetKey(KeyCode.S))
-			cameraPos.z -= movementSpeed;
+			cameraPos.z -= movementSpeed * c;
 		if (Input.GetKey(KeyCode.A))
-			cameraPos.x -= movementSpeed;
+			cameraPos.x -= movementSpeed * c;
 		if (Input.GetKey(KeyCode.D))
-			cameraPos.x += movementSpeed;
+			cameraPos.x += movementSpeed * c;
 		if (Input.GetKey(KeyCode.Space))
-			cameraPos.y += movementSpeed;
+			cameraPos.y += movementSpeed * c;
 		if (Input.GetKey(KeyCode.LeftShift))
-			cameraPos.y -= movementSpeed;
+			cameraPos.y -= movementSpeed * c;
 
 	}
 

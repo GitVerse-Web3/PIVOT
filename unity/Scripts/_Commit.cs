@@ -70,8 +70,11 @@ public class _Commit : ICommit
 		}
 		else
 		{
-			double half = parentModel.compressionRatio / 2;
-			c = half + UnityEngine.Random.Range(0, 1) * half;
+			float nn = 2 / 3;
+			float xx = 1 - nn;
+			float p = (float)parentModel.compressionRatio;
+
+			c = nn * p + UnityEngine.Random.Range(0.5f, 1f) * xx * p;
 		}
 		compressionRatio = c;
 	}

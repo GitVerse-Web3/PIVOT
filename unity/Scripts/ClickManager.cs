@@ -30,15 +30,18 @@ public class ClickManager : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-
-		if (Physics.Raycast(ray, out hit))
+		if (Input.GetMouseButtonDown(0))
 		{
-			Transform objectHit = hit.transform;
+			Ray ray = camera.ScreenPointToRay(Input.mousePosition);
 
-			Node node = objectHit.GetComponent<Node>();
+			if (Physics.Raycast(ray, out hit))
+			{
+				Transform objectHit = hit.transform;
 
-			rebase(node);
+				Node node = objectHit.GetComponent<Node>();
+
+				rebase(node);
+			}
 		}
 	}
 }
