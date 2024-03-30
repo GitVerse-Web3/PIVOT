@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-interface ICommit
+
+public interface ICommit
 {
 	Int64 modelHashID { get; }
 	PublicKey author { get; }
@@ -11,7 +11,7 @@ interface ICommit
 	DateTime timestamp { get; }
 	Tag tag { get; }
 	string commitMessage { get; }
-
+	ICommit parentModel { get; }
 
 
 
@@ -19,10 +19,13 @@ interface ICommit
 	byte[] getFullModel();
 	bool checkValid();
 	void rebaseToMaster();
-	double getCompressionRatio();
+	double compressionRatio { get; }
 }
 
-interface Tag
+
+
+
+public interface Tag
 {
 	bool isMaster { get; set; }
 	bool isDeltaModel { get; }
@@ -31,24 +34,21 @@ interface Tag
 	bool isMerge { get; }
 }
 
-interface MergeModel : ICommit
+public interface MergeModel : ICommit
 {
-	ICommit[] parentModels { get; }
+	ICommit[] mergingModels { get; }
 
-}
-interface SingleParentModel : ICommit
-{
-	ICommit parentModel { get; }
 }
 
 
-interface DeltaModel : SingleParentModel
+
+public interface DeltaModel : ICommit
 {
 	byte[] modelDelta { get; }
 
 }
 
-interface FullModel : SingleParentModel
+public interface FullModel : ICommit
 {
 
 
