@@ -37,6 +37,8 @@ public class _Commit : ICommit
 		}
 	}
 
+	float thinSpeed = 3 / 4;
+
 
 	protected _Commit(long modelHashID, PublicKey author, long authorSignature, DateTime timestamp, Tag tag, string commitMessage, double compressionRatio, ICommit parentModel)
 	{
@@ -70,11 +72,11 @@ public class _Commit : ICommit
 		}
 		else
 		{
-			float nn = 2 / 3;
-			float xx = 1 - nn;
+
+			float xx = 1 - thinSpeed;
 			float p = (float)parentModel.compressionRatio;
 
-			c = nn * p + UnityEngine.Random.Range(0.5f, 1f) * xx * p;
+			c = thinSpeed * p + UnityEngine.Random.Range(0.5f, 1f) * xx * p;
 		}
 		compressionRatio = c;
 	}
