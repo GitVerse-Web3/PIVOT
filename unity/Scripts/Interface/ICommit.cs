@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using UnityEngine;
 
 public interface ICommit
 {
@@ -11,15 +11,18 @@ public interface ICommit
 	DateTime timestamp { get; }
 	Tag tag { get; }
 	string commitMessage { get; }
-	ICommit parentModel { get; }
+	ICommit parentModel { get; set; }
 
 
 
 
 	byte[] getFullModel();
 	bool checkValid();
-	void rebaseToMaster();
-	double compressionRatio { get; }
+	void chosenToBeHead();
+	void rebaseToMaster(ICommit head);
+	double compressionRatio { get; set; }
+
+
 }
 
 
@@ -32,6 +35,25 @@ public interface Tag
 	bool isHead { get; set; }
 	bool isEncrypted { get; }
 	bool isMerge { get; }
+}
+
+
+public class _Tag : Tag
+{
+	public _Tag()
+	{
+		this.isMaster = false;
+		this.isDeltaModel = true;
+		this.isHead = false;
+		this.isEncrypted = false;
+		this.isMerge = false;
+	}
+
+	public bool isMaster { get; set; }
+	public bool isDeltaModel { get; }
+	public bool isHead { get; set; }
+	public bool isEncrypted { get; }
+	public bool isMerge { get; }
 }
 
 public interface MergeModel : ICommit

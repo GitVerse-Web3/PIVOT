@@ -6,7 +6,7 @@ using Zenject;
 
 public class _Commit : ICommit
 {
-	public class Factory : IFactory<int, ICommit>
+	public class Factory : IFactory<string, ICommit, ICommit>
 	{
 		Random random;
 
@@ -15,14 +15,24 @@ public class _Commit : ICommit
 			random = new Random();
 		}
 
-		public ICommit Create(int param)
+		public ICommit Create(string commitMessage, ICommit parentModel)
 		{
+
+
 			_Commit ans = new _Commit(
-				(long)random.Next() * (long)random.Next(),
+				(long)random.Next() * (long)random.Next()
+				, new _PublicKey()
+				, random.Next()
+				, DateTime.Now
+				, new _Tag()
+				, commitMessage
+				, 1
+				, parentModel
+				);
+			ans.makeUpC();
 
 
-
-
+			return ans;
 
 		}
 	}
@@ -47,9 +57,24 @@ public class _Commit : ICommit
 	public Tag tag { get; }
 	public string commitMessage { get; }
 
-	public double compressionRatio { get; }
+	public double compressionRatio { get; set; }
 
-	public ICommit parentModel { get; }
+	public ICommit parentModel { get; set; }
+
+	protected virtual void makeUpC()
+	{
+		double c;
+		if (parentModel == null)
+		{
+			c = 1;
+		}
+		else
+		{
+			double half = parentModel.compressionRatio / 2;
+			c = half + UnityEngine.Random.Range(0, 1) * half;
+		}
+		compressionRatio = c;
+	}
 
 	public virtual bool checkValid()
 	{
@@ -61,11 +86,22 @@ public class _Commit : ICommit
 		return new byte[1];
 	}
 
-	public virtual void rebaseToMaster()
+	public virtual void chosenToBeHead()
 	{
 		Assert.That(this.parentModel.tag.isHead || this.parentModel == null);
 		this.tag.isMaster = true;
-		this.parentModel.tag.isHead = false;
 		this.tag.isHead = true;
+		if (this.parentModel != null)
+		{
+			this.parentModel.tag.isHead = false;
+		}
+
+
+	}
+
+	public virtual void rebaseToMaster(ICommit head)
+	{
+		this.parentModel = head;
+		this.makeUpC();
 	}
 }
