@@ -176,8 +176,8 @@ public class Node : MonoBehaviour, ICommit, IInitializable
 	{
 		_textMesh.text =
 			"id: " + modelHashID
-			+ "\n message:\n " + commitMessage
-			+ "\n c: " + compressionRatio;
+			+ "\n\n message:\n " + commitMessage
+			+ "\n\n c = " + compressionRatio;
 	}
 
 	public void Initialize()
