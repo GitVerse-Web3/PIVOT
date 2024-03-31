@@ -1,0 +1,10 @@
+[package]
+name = "NAG"
+version = "0.0.1"
+
+[addresses]
+nag = "_"
+
+
+[dependencies]
+AptosFramework = { local = "../../framework/aptos-framework" }

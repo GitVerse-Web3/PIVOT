@@ -1,0 +1,46 @@
+{
+  "name": "move-to-agi",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "lint-staged": {
+    "*.{js,ts,vue,jsx,tsx}": [
+      "eslint --cache --fix",
+      "prettier -c --write --cache"
+    ]
+  },
+  "dependencies": {
+    "@aptos-labs/ts-sdk": "^1.11.0",
+    "@aptos-labs/wallet-adapter-react": "^2.2.0",
+    "@identity-connect/wallet-adapter-plugin": "^1.2.5",
+    "@monaco-editor/react": "^4.6.0",
+    "@nextui-org/react": "^2.2.10",
+    "@pontem/wallet-adapter-plugin": "^0.2.1",
+    "ethers": "^6.11.1",
+    "framer-motion": "^11.0.23",
+    "next": "14.1.4",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-monaco-editor": "^0.55.0",
+    "tailwind-merge": "^2.2.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.4",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "postcss": "^8",
+    "prettier": "^3.2.5",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5"
+  }
+}

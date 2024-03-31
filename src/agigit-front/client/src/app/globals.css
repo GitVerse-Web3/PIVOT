@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  background: linear-gradient(to bottom, #323232 0%, #3f3f3f 40%, #1c1c1c 150%),
+    linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(0, 0, 0, 0.25) 200%
+    );
+  background-blend-mode: multiply;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.dark-gradient-bg {
+  background-image: linear-gradient(to right, #434343 0%, black 100%);
+}
+
+.fade-animation {
+  animation: fade-in-out 1s ease-in-out both;
+}
+
+@keyframes typing {
+  from { width: 0 }
+}
+
+@keyframes blink-caret {
+  50% { border-color: transparent; }
+}
+
+.type-writer {
+  width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: .15em solid orange; /* The typewriter cursor */
+  animation:
+    typing 4s steps(40, end) forwards,
+    blink-caret .75s step-end infinite;
+}
+
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
