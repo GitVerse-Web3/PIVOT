@@ -26,9 +26,11 @@ type Keeper struct {
 	// should be the x/gov module account.
 	authority string
 
-	Schema collections.Schema
-	Params collections.Item[types.Params]
-	Minter collections.Item[types.Minter]
+	Schema                  collections.Schema
+	Params                  collections.Item[types.Params]
+	Minter                  collections.Item[types.Minter]
+	LastStakeCoinMintTime   collections.Item[math.Int]
+	LastStakeCoinMintAmount collections.Item[math.Int]
 }
 
 // NewKeeper creates a new mint Keeper instance
@@ -48,15 +50,17 @@ func NewKeeper(
 
 	sb := collections.NewSchemaBuilder(env.KVStoreService)
 	k := Keeper{
-		cdc:              cdc,
-		environment:      env,
-		stakingKeeper:    sk,
-		bankKeeper:       bk,
-		logger:           env.Logger,
-		feeCollectorName: feeCollectorName,
-		authority:        authority,
-		Params:           collections.NewItem(sb, types.ParamsKey, "params", codec.CollValue[types.Params](cdc)),
-		Minter:           collections.NewItem(sb, types.MinterKey, "minter", codec.CollValue[types.Minter](cdc)),
+		cdc:                     cdc,
+		environment:             env,
+		stakingKeeper:           sk,
+		bankKeeper:              bk,
+		logger:                  env.Logger,
+		feeCollectorName:        feeCollectorName,
+		authority:               authority,
+		Params:                  collections.NewItem(sb, types.ParamsKey, "params", codec.CollValue[types.Params](cdc)),
+		Minter:                  collections.NewItem(sb, types.MinterKey, "minter", codec.CollValue[types.Minter](cdc)),
+		LastStakeCoinMintAmount: collections.NewItem(sb, types.LastStakeCoinMintAmountKey, "last_stake_coin_mint_amount", sdk.IntValue),
+		LastStakeCoinMintTime:   collections.NewItem(sb, types.LastStakeCoinMintTimeKey, "last_stake_coin_mint_time", sdk.IntValue),
 	}
 
 	schema, err := sb.Build()
@@ -104,4 +108,52 @@ func (k Keeper) MintCoins(ctx context.Context, newCoins sdk.Coins) error {
 // AddCollectedFees to be used in BeginBlocker.
 func (k Keeper) AddCollectedFees(ctx context.Context, fees sdk.Coins) error {
 	return k.bankKeeper.SendCoinsFromModuleToModule(ctx, types.ModuleName, k.feeCollectorName, fees)
+}
+
+func (k Keeper) GetLastStakeCoinMintAmount(ctx context.Context) (math.Int, error) {
+	fmt.Println("GetLastStakeCoinMintAmount")
+	amount, err := k.LastStakeCoinMintAmount.Get(ctx)
+	fmt.Println("Get amount: ", amount)
+	if err != nil {
+		return amount, err
+	}
+	return amount, nil
+}
+
+func (k Keeper) SetLastStakeCoinMintAmount(ctx context.Context, amount math.Int) error {
+	fmt.Println("SetLastStakeCoinMintAmount")
+	fmt.Println("Set amount: ", amount)
+	return k.LastStakeCoinMintAmount.Set(ctx, amount)
+}
+
+func (k Keeper) GetLastStakeCoinMintTime(ctx context.Context) (math.Int, error) {
+	fmt.Println("GetLastStakeCoinMintTime")
+	t, err := k.LastStakeCoinMintTime.Get(ctx)
+	fmt.Println("Get t: ", t)
+	if err != nil {
+		return t, err
+	}
+	return t, nil
+}
+
+func (k Keeper) SetLastStakeCoinMintTime(ctx context.Context, t math.Int) error {
+	fmt.Println("SetLastStakeCoinMintTime")
+	fmt.Println("Set t: ", t)
+	return k.LastStakeCoinMintTime.Set(ctx, t)
+}
+
+func (k Keeper) HasLastStakeCoinMintAmount(ctx context.Context) bool {
+	ifHas, err := k.LastStakeCoinMintAmount.Has(ctx)
+	if err != nil {
+		return false
+	}
+	return ifHas
+}
+
+func (k Keeper) HasLastStakeCoinMintTime(ctx context.Context) bool {
+	ifHas, err := k.LastStakeCoinMintTime.Has(ctx)
+	if err != nil {
+		return false
+	}
+	return ifHas
 }

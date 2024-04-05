@@ -644,7 +644,8 @@ func (n *Network) LatestHeight() (int64, error) {
 	ticker := time.NewTicker(time.Second)
 	defer ticker.Stop()
 
-	timeout := time.NewTimer(time.Second * 5)
+	// timeout after 20 seconds
+	timeout := time.NewTimer(time.Second * 20)
 	defer timeout.Stop()
 
 	var latestHeight int64
@@ -654,7 +655,7 @@ func (n *Network) LatestHeight() (int64, error) {
 	for {
 		select {
 		case <-timeout.C:
-			return latestHeight, errors.New("timeout exceeded waiting for block")
+			return latestHeight, errors.New("657 timeout exceeded waiting for block")
 		case <-ticker.C:
 			done := make(chan struct{})
 			go func() {
@@ -666,7 +667,7 @@ func (n *Network) LatestHeight() (int64, error) {
 			}()
 			select {
 			case <-timeout.C:
-				return latestHeight, errors.New("timeout exceeded waiting for block")
+				return latestHeight, errors.New("669 timeout exceeded waiting for block")
 			case <-done:
 				if latestHeight != 0 {
 					return latestHeight, nil
@@ -711,7 +712,7 @@ func (n *Network) WaitForHeightWithTimeout(h int64, t time.Duration) (int64, err
 	for {
 		select {
 		case <-timeout.C:
-			return latestHeight, errors.New("timeout exceeded waiting for block")
+			return latestHeight, errors.New("714 timeout exceeded waiting for block")
 		case <-ticker.C:
 
 			res, err := queryClient.GetLatestBlock(context.Background(), &cmtservice.GetLatestBlockRequest{})
