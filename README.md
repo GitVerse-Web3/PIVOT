@@ -79,7 +79,7 @@ For P.I.V.O.T. protocol, please check the notion document: https://metalanguage.
 | 枫叶闲庭 | AI工程师 | lizhanyang505 | soulandyvip |
 | 蒹葭苍苍 | AI工程师 | MonicaArnaud | ouahiba0804 |
 | lix | 区块链工程师 | ciconia11 | cryptolix |
-
+| cxgd | 区块链工程师 | haisenCx | cxgd123456 |
 
 
 # Install
