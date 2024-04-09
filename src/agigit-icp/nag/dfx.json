@@ -1,0 +1,27 @@
+{
+  "canisters": {
+    "nag_backend": {
+      "candid": "src/nag_backend/nag_backend.did",
+      "package": "nag_backend",
+      "type": "rust"
+    },
+    "nag_frontend": {
+      "dependencies": [
+        "nag_backend"
+      ],
+      "source": [
+        "src/nag_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "nag_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
