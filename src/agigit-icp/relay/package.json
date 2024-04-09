@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@dfinity/agent": "^1.2.0"
+  }
+}
